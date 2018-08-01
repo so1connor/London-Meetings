@@ -8,22 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		1D6A0A11210730DD00E1088E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A10210730DD00E1088E /* AppDelegate.swift */; };
-		1D6A0A13210730DD00E1088E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A12210730DD00E1088E /* ViewController.swift */; };
 		1D6A0A16210730DD00E1088E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A0A14210730DD00E1088E /* Main.storyboard */; };
 		1D6A0A19210730DD00E1088E /* London_Meetings.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A17210730DD00E1088E /* London_Meetings.xcdatamodeld */; };
 		1D6A0A1B210730DD00E1088E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A0A1A210730DD00E1088E /* Assets.xcassets */; };
 		1D6A0A1E210730DD00E1088E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A0A1C210730DD00E1088E /* LaunchScreen.storyboard */; };
+		1D6A0A282107341700E1088E /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A272107341700E1088E /* TableViewController.swift */; };
+		1D6A0A2A210C8B9100E1088E /* meetings.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A0A29210C8B9000E1088E /* meetings.json */; };
+		1D6A0A2C210E5DEE00E1088E /* PopupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */; };
+		1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A55210F820200E1088E /* NavigationViewController.swift */; };
+		1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A592111C28E00E1088E /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D6A0A0D210730DD00E1088E /* London Meetings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "London Meetings.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D6A0A10210730DD00E1088E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1D6A0A12210730DD00E1088E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1D6A0A15210730DD00E1088E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1D6A0A18210730DD00E1088E /* London_Meetings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = London_Meetings.xcdatamodel; sourceTree = "<group>"; };
 		1D6A0A1A210730DD00E1088E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D6A0A1D210730DD00E1088E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1D6A0A1F210730DD00E1088E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1D6A0A272107341700E1088E /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		1D6A0A29210C8B9000E1088E /* meetings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meetings.json; sourceTree = "<group>"; };
+		1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupTableViewController.swift; sourceTree = "<group>"; };
+		1D6A0A55210F820200E1088E /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
+		1D6A0A592111C28E00E1088E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,13 +64,17 @@
 		1D6A0A0F210730DD00E1088E /* London Meetings */ = {
 			isa = PBXGroup;
 			children = (
+				1D6A0A29210C8B9000E1088E /* meetings.json */,
 				1D6A0A10210730DD00E1088E /* AppDelegate.swift */,
-				1D6A0A12210730DD00E1088E /* ViewController.swift */,
+				1D6A0A272107341700E1088E /* TableViewController.swift */,
+				1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */,
+				1D6A0A55210F820200E1088E /* NavigationViewController.swift */,
 				1D6A0A14210730DD00E1088E /* Main.storyboard */,
 				1D6A0A1A210730DD00E1088E /* Assets.xcassets */,
 				1D6A0A1C210730DD00E1088E /* LaunchScreen.storyboard */,
 				1D6A0A1F210730DD00E1088E /* Info.plist */,
 				1D6A0A17210730DD00E1088E /* London_Meetings.xcdatamodeld */,
+				1D6A0A592111C28E00E1088E /* MapViewController.swift */,
 			);
 			path = "London Meetings";
 			sourceTree = "<group>";
@@ -126,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D6A0A1E210730DD00E1088E /* LaunchScreen.storyboard in Resources */,
+				1D6A0A2A210C8B9100E1088E /* meetings.json in Resources */,
 				1D6A0A1B210730DD00E1088E /* Assets.xcassets in Resources */,
 				1D6A0A16210730DD00E1088E /* Main.storyboard in Resources */,
 			);
@@ -138,8 +151,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D6A0A13210730DD00E1088E /* ViewController.swift in Sources */,
+				1D6A0A2C210E5DEE00E1088E /* PopupTableViewController.swift in Sources */,
+				1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */,
 				1D6A0A19210730DD00E1088E /* London_Meetings.xcdatamodeld in Sources */,
+				1D6A0A282107341700E1088E /* TableViewController.swift in Sources */,
+				1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */,
 				1D6A0A11210730DD00E1088E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +301,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7FCXTZT7A7;
 				INFOPLIST_FILE = "London Meetings/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -302,6 +319,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 7FCXTZT7A7;
 				INFOPLIST_FILE = "London Meetings/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
