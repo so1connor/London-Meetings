@@ -8,12 +8,17 @@
 
 import UIKit
 
-class NavigationViewController: UINavigationController, DayDelegate{
+class NavigationViewController: UINavigationController, DayDelegate, LocationOptionDelegate{
     
     func changedDay(day: Int) {
         //print("hello",day)
         let controller = self.topViewController as? TableViewController
         controller?.updateDay(day: day)
+    }
+    
+    func setLocationOption(option: LocationOption){
+        let controller = self.topViewController as? TableViewController
+        controller?.setLocationOption(option: option)
     }
 
     override func viewDidLoad() {

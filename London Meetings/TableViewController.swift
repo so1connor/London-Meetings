@@ -21,6 +21,13 @@ struct Meeting: Codable{
     var day: Int
 }
 
+struct LocationOption {
+    var live: Bool
+    var distance: CLLocationDistance
+    var title: NSAttributedString
+    var reuseIdentifier: String
+}
+
 class MeetingTableViewCell: UITableViewCell {
     @IBOutlet weak var meetingTitle: UILabel!
     @IBOutlet weak var meetingAddress: UILabel!
@@ -31,39 +38,113 @@ class MeetingTableViewCell: UITableViewCell {
 let days = ["Today", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
 
-class TableViewController: UITableViewController{
+class TableViewController: UITableViewController, CLLocationManagerDelegate{
+    @IBOutlet weak var locationButton: UIBarButtonItem!
     @IBOutlet weak var todayButton: UIBarButtonItem!
+    var locationManager : CLLocationManager!
+    var locationFirst : Bool = true
+    var currentLocation :CLLocation?
+    //let blackAttribute = [NSAttributedStringKey.foregroundColor: UIColor.black]
+    let centralLondon = LocationOption(live: false, distance: 5000, title: NSAttributedString(string: "Central London", attributes: [NSAttributedStringKey.foregroundColor: UIColor.black]), reuseIdentifier: "DefaultLocationCell")
+    let allLondon = LocationOption(live: false, distance: 10000, title: NSAttributedString(string: "All London", attributes: [NSAttributedStringKey.foregroundColor: UIColor.black]), reuseIdentifier: "DefaultLocationCell")
+    var locationOptions : [LocationOption] = []
+    var theDay : Int = 0
+    var timer : Timer?
+    let london : CLLocationCoordinate2D = CLLocationCoordinate2DMake(51.512433, -0.116978)
     var meetingRow : Int?
-
+    var original: [Meeting] = []
+    var localmeetings: [Meeting] = []
+    var meetings: [Meeting] = []
+    var region: CLCircularRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(51.512433, -0.116978), radius: CLLocationDistance(4000), identifier: "London")
+    
+    func updateTime(){
+        let today = Date()
+        let calendar = Calendar.current
+        let myday = calendar.component(.weekday, from: today)
+        let hour = calendar.component(.hour, from: today)
+        let minute = calendar.component(.minute, from: today)
+        let minutes = hour * 60 + minute
+//        print(myday)
+//        print(minutes)
+        let todaysmeetings = localmeetings.filter {$0.day == myday - 1}
+        meetings = todaysmeetings.filter {$0.time > minutes}
+        if(meetings.count != 0){
+            timer = Timer.scheduledTimer(withTimeInterval: Double(meetings[0].time - minutes), repeats: true, block: { (Timer) in
+            self.updateDay(day: self.theDay)
+            })
+        }
+    }
     
     func updateDay(day : Int){
         todayButton.title = days[day]
+        theDay = day
         if(day == 0){
-            let today = Date()
-            let calendar = Calendar.current
-            let myday = calendar.component(.weekday, from: today)
-            let hour = calendar.component(.hour, from: today)
-            let minute = calendar.component(.minute, from: today)
-            let minutes = hour * 60 + minute
-            print(myday)
-            print(minutes)
-            meetings = original.filter {$0.day == myday}
-            meetings = meetings.filter {$0.time > minutes}
+            updateTime()
         } else {
-            meetings = original.filter {$0.day == day - 1}
+            meetings = localmeetings.filter {$0.day == day - 1}
         }
-    
         meetings = meetings.sorted {$0.time < $1.time}
         self.tableView.reloadData()
+        print("meetings", meetings.count)
+    }
+    
+    func setLocationOption(option: LocationOption){
+        locationButton.title = option.title.string
+        if(option.live){
+            region = CLCircularRegion(center: (currentLocation?.coordinate)!, radius: option.distance, identifier: "Live London")
+            
+        } else {
+            region = CLCircularRegion(center: london, radius: option.distance, identifier: "Central London")
+
+        }
+        localmeetings = original.filter{
+            let location = CLLocationCoordinate2DMake($0.lat,$0.lng)
+            return region.contains(location)
+        }
+        updateDay(day: theDay)
+    }
+    
+    func updateLocationOptions(){
+        if(currentLocation != nil){
+            let blueAttribute = [NSAttributedStringKey.foregroundColor: UIColor.blue]
+            let blackAttribute = [NSAttributedStringKey.foregroundColor: UIColor.black]
+            let geocoder = CLGeocoder()
+            //locationManager.stopUpdatingLocation()
+            print("calling geocoder")
+            geocoder.reverseGeocodeLocation(currentLocation!) { (places, error) in
+                if(error == nil){
+                    var list: [LocationOption] = []
+                    if(places != nil){
+                        let place: CLPlacemark = places![0]
+                        let title = NSMutableAttributedString(string: "⊙", attributes: blueAttribute)
+                        title.append(NSAttributedString(string: " \(place.subLocality ?? "Your Location")", attributes: blackAttribute))
+                        list.append(LocationOption(live: true, distance: 4000, title: title, reuseIdentifier: "LiveLocationCell"))
+                    }
+                    list.append(self.centralLondon)
+                    list.append(self.allLondon)
+                    self.locationOptions = list
+                } else {
+                    //print(error!)
+                }
+                //self.locationManager.startUpdatingLocation()
+            }
+//            for i in 1...6 {
+//                let title = NSMutableAttributedString(string: "⊙", attributes: blueAttribute)
+//                title.append(NSAttributedString(string: " \(i) km", attributes: blackAttribute))
+//                locationOptions.append(LocationOption(live: true, distance: CLLocationDistance(i * 1000), title: title, reuseIdentifier: "LiveLocationCell"))
+//            }
+        } else {
+        locationOptions = [centralLondon,allLondon]
+        }
+    //setLocationOption(option: <#T##LocationOption#>)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        if(timer != nil){
+            timer!.invalidate()
+        }
     }
 
-    var original: [Meeting] = []
-    var meetings: [Meeting] = []
-//        Meeting(title: "Soho Sober", address: "24 Dean Street", duration: 60),
-//        Meeting(title: "Newcomers", address: "Christ Church", duration: 90),
-//        Meeting(title: "Living in the Solution you silly bastards who drink too much", address: "Hop Gardens, Charing Cross Road near Covent Garden tube and Leicester Square", duration: 60)]
-    var region: CLCircularRegion = CLCircularRegion(center: CLLocationCoordinate2DMake(51.512433, -0.116978), radius: CLLocationDistance(4000), identifier: "London")
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         if let path = Bundle.main.path(forResource: "meetings", ofType: "json") {
@@ -80,18 +161,17 @@ class TableViewController: UITableViewController{
                 // handle error
             }
         }
-        original = original.filter{
-            let location = CLLocationCoordinate2DMake($0.lat,$0.lng)
-            return region.contains(location)
-        }
-        updateDay(day: 0)
-        //meetings = original.filter {$0.day == 0}.sorted {$0.time < $1.time}
+        setLocationOption(option: centralLondon)
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        self.clearsSelectionOnViewWillAppear = false
+        
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+//        locationManager.allowsBackgroundLocationUpdates = true
+//        locationManager.pausesLocationUpdatesAutomatically = false
+        locationManager.requestWhenInUseAuthorization()
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -121,6 +201,13 @@ class TableViewController: UITableViewController{
             if let nextViewController = segue.destination as? MapViewController{
                 nextViewController.meetingRow = meetingRow
                 nextViewController.meetings = meetings
+                nextViewController.theDay = theDay
+            }
+        }
+        if(segue.identifier == "locationSegue"){
+            print("locationSegue")
+            if let nextViewController = segue.destination as? LocationTableViewController{
+                nextViewController.locationOptions = self.locationOptions
             }
         }
     }
@@ -149,6 +236,44 @@ class TableViewController: UITableViewController{
         
         return cell
     }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations objects: [CLLocation]) {
+        print("update location")
+        let location = objects.last!
+        let accuracy = Double(location.horizontalAccuracy)
+        if(accuracy > 0){
+            currentLocation = location
+            updateLocationOptions()
+//            if(locationFirst){
+//                locationManager.stopUpdatingLocation()
+//                locationManager.startMonitoringSignificantLocationChanges()
+//                locationFirst = false
+//                }
+        } else {
+            print("location was invalid")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("location authorization status is", status.rawValue)
+        //locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        //locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        updateLocationOptions()
+//        if(CLLocationManager.significantLocationChangeMonitoringAvailable()){
+//            locationManager.startMonitoringSignificantLocationChanges()
+//            print("significant changes available")
+//        } else {
+            locationManager.startUpdatingLocation()
+//        }
+        
+    }
+
     
 //    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 //        return "Section \(section)"

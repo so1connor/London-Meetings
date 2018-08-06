@@ -17,6 +17,7 @@
 		1D6A0A2C210E5DEE00E1088E /* PopupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */; };
 		1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A55210F820200E1088E /* NavigationViewController.swift */; };
 		1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A592111C28E00E1088E /* MapViewController.swift */; };
+		1D6A0A5C2112398A00E1088E /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupTableViewController.swift; sourceTree = "<group>"; };
 		1D6A0A55210F820200E1088E /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		1D6A0A592111C28E00E1088E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				1D6A0A1F210730DD00E1088E /* Info.plist */,
 				1D6A0A17210730DD00E1088E /* London_Meetings.xcdatamodeld */,
 				1D6A0A592111C28E00E1088E /* MapViewController.swift */,
+				1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */,
 			);
 			path = "London Meetings";
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				1D6A0A282107341700E1088E /* TableViewController.swift in Sources */,
 				1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */,
 				1D6A0A11210730DD00E1088E /* AppDelegate.swift in Sources */,
+				1D6A0A5C2112398A00E1088E /* LocationTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

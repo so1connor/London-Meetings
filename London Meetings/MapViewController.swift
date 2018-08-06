@@ -11,6 +11,7 @@ import MapKit
 
 class MapViewController: UIViewController {
 
+    //@IBOutlet weak var todayButton: UIBarButtonItem!
     
     @IBOutlet weak var meetingAddress: UILabel!
     @IBOutlet weak var previousButton: UIButton!
@@ -25,6 +26,8 @@ class MapViewController: UIViewController {
     @IBOutlet weak var meetingDuration: UILabel!
     var meetingRow : Int?
     var meetings : [Meeting]?
+    var theDay : Int = 0
+    let days = ["Today", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
     var currentRow = 0
     var annotation = MKPointAnnotation()
     
@@ -94,6 +97,7 @@ class MapViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         setMeeting()
+        //todayButton.title = days[theDay]
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
