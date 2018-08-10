@@ -11,9 +11,8 @@ import UIKit
 class NavigationViewController: UINavigationController, DayDelegate, LocationOptionDelegate{
     
     func changedDay(day: Int) {
-        //print("hello",day)
         let controller = self.topViewController as? TableViewController
-        controller?.updateDay(day: day)
+        controller?.setDay(day: day)
     }
     
     func setLocationOption(option: LocationOption){
@@ -23,13 +22,11 @@ class NavigationViewController: UINavigationController, DayDelegate, LocationOpt
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        print("navigation controller memory warning")
     }
     
 

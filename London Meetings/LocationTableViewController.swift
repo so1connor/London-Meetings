@@ -23,10 +23,7 @@ class LiveLocationCell: UITableViewCell{
 
 class LocationTableViewController: UITableViewController {
 
-    
-    //var currentLocation : CLLocation?
-    
-    var locationOptions : [LocationOption]?
+    var locationOptions : LocationOptions?
     
     weak var delegate: LocationOptionDelegate?
     
@@ -36,6 +33,7 @@ class LocationTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -56,11 +54,11 @@ class LocationTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locationOptions!.count
+        return locationOptions!.options.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let option = locationOptions![indexPath.row]
+        let option = locationOptions!.options[indexPath.row]
         if(option.live) {
             let cell = tableView.dequeueReusableCell(withIdentifier: option.reuseIdentifier, for: indexPath) as! LiveLocationCell
 //            let blueAttribute = [NSAttributedStringKey.foregroundColor: UIColor.blue]
@@ -78,7 +76,7 @@ class LocationTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("location pop row", indexPath.row)
-        delegate?.setLocationOption(option: locationOptions![indexPath.row])
+        delegate?.setLocationOption(option: locationOptions!.options[indexPath.row])
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 

@@ -18,6 +18,8 @@
 		1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A55210F820200E1088E /* NavigationViewController.swift */; };
 		1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A592111C28E00E1088E /* MapViewController.swift */; };
 		1D6A0A5C2112398A00E1088E /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */; };
+		1DA5E95D2119B7B700F27189 /* LocationOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5E95C2119B7B700F27189 /* LocationOptions.swift */; };
+		1DA5E95F211A0A3E00F27189 /* Meetings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5E95E211A0A3E00F27189 /* Meetings.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		1D6A0A55210F820200E1088E /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		1D6A0A592111C28E00E1088E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
+		1DA5E95C2119B7B700F27189 /* LocationOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationOptions.swift; sourceTree = "<group>"; };
+		1DA5E95E211A0A3E00F27189 /* Meetings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meetings.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,8 @@
 				1D6A0A17210730DD00E1088E /* London_Meetings.xcdatamodeld */,
 				1D6A0A592111C28E00E1088E /* MapViewController.swift */,
 				1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */,
+				1DA5E95C2119B7B700F27189 /* LocationOptions.swift */,
+				1DA5E95E211A0A3E00F27189 /* Meetings.swift */,
 			);
 			path = "London Meetings";
 			sourceTree = "<group>";
@@ -154,11 +160,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DA5E95F211A0A3E00F27189 /* Meetings.swift in Sources */,
 				1D6A0A2C210E5DEE00E1088E /* PopupTableViewController.swift in Sources */,
 				1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */,
 				1D6A0A19210730DD00E1088E /* London_Meetings.xcdatamodeld in Sources */,
 				1D6A0A282107341700E1088E /* TableViewController.swift in Sources */,
 				1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */,
+				1DA5E95D2119B7B700F27189 /* LocationOptions.swift in Sources */,
 				1D6A0A11210730DD00E1088E /* AppDelegate.swift in Sources */,
 				1D6A0A5C2112398A00E1088E /* LocationTableViewController.swift in Sources */,
 			);

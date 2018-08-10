@@ -1,0 +1,121 @@
+//
+//  Meetings.swift
+//  London Meetings
+//
+//  Created by Steve O'Connor on 07/08/2018.
+//  Copyright © 2018 Steve O'Connor. All rights reserved.
+//
+
+import Foundation
+import CoreLocation
+
+struct Meeting: Codable{
+    var title: String
+    var address: String
+    var duration: Int
+    var time: Int
+    var postcode: String
+    var code: Int
+    var lat: Double
+    var lng: Double
+    var day: Int
+}
+
+
+class Meetings {
+    var list: [Meeting] = []
+    private var original: [Meeting] = []
+    private var theDay: Int = 0
+    private var today: Bool = false
+    private var theRegion: CLCircularRegion?
+    private var theMinutes: Int = 0
+    var timer: Timer?
+    
+    func loadMeetings() {
+        if let path = Bundle.main.path(forResource: "meetings", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                let decoder = JSONDecoder()
+                do {
+                    original = try decoder.decode([Meeting].self, from: data)
+                    
+                    print("original", original.count)
+                } catch {
+                    throw error
+                }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func setDay(day: Int){
+        print("set day", day)
+        today = false
+        theDay = day - 1
+        setMeetings()
+    }
+    
+    func setToday(){
+        print("set today")
+        today = true
+        setMeetings()
+    }
+    
+    func setRegion(region: CLCircularRegion?){
+        print("set region", region as Any)
+        theRegion = region
+        setMeetings()
+    }
+    
+    func setMeetings(){
+        if(today){
+            updateToday()
+        } else if (timer != nil){
+            timer!.invalidate()
+        }
+        filterMeetings()
+        sortByTime()
+        if(list.count > 0){
+            timer = Timer.scheduledTimer(withTimeInterval: Double(list[0].time - theMinutes) * 60, repeats: true, block: { (Timer) in
+                self.setMeetings()
+            })
+        }
+        
+    }
+    
+    func updateToday(){
+        print("today", today)
+        let date = Date()
+        let calendar = Calendar.current
+        let day = calendar.component(.weekday, from: date)
+        let hour = calendar.component(.hour, from: date)
+        let minute = calendar.component(.minute, from: date)
+        let minutes = hour * 60 + minute
+        theDay = day - 1
+        theMinutes = minutes
+    }
+    
+    private func filterMeetings(){
+        list = original.filter{
+            let location = CLLocationCoordinate2DMake($0.lat,$0.lng)
+            var result = false
+            if($0.day == theDay){
+                result = true
+                if(theRegion != nil){
+                    result = theRegion!.contains(location)
+                }
+                if(today && result){
+                    result = $0.time > theMinutes
+                }
+            return result
+            }
+        return false
+        }
+    }
+    
+    private func sortByTime(){
+        list = list.sorted {$0.time < $1.time}
+    }
+
+}
