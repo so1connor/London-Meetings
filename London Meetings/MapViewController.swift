@@ -75,7 +75,7 @@ class MapViewController: UIViewController {
             let row = meetingRow!
             let meeting = meetings![row]
             let location = CLLocationCoordinate2DMake(meeting.lat,meeting.lng)
-            let region = MKCoordinateRegionMake(location, MKCoordinateSpanMake(0.01,0.01))
+            let region = MKCoordinateRegion.init(center: location, span: MKCoordinateSpan.init(latitudeDelta: 0.01,longitudeDelta: 0.01))
             mapView.setRegion(region, animated: true)
             meetingTitle.text = meeting.title
             meetingDuration.text = String(meeting.duration)

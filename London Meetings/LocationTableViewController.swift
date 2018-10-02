@@ -10,15 +10,11 @@ import UIKit
 import CoreLocation
 
 protocol LocationOptionDelegate: class {
-    func setLocationOption(option: LocationOption)
+    func setLocationOption(index: Int)
 }
 
 class DefaultLocationCell: UITableViewCell{
     @IBOutlet weak var defaultLocation: UILabel!
-}
-
-class LiveLocationCell: UITableViewCell{
-    @IBOutlet weak var liveLocation: UILabel!
 }
 
 class LocationTableViewController: UITableViewController {
@@ -54,29 +50,19 @@ class LocationTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return locationOptions!.options.count
+        return (locationOptions?.options.count)!
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let option = locationOptions!.options[indexPath.row]
-        if(option.live) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: option.reuseIdentifier, for: indexPath) as! LiveLocationCell
-//            let blueAttribute = [NSAttributedStringKey.foregroundColor: UIColor.blue]
-//            let blackAttribute = [NSAttributedStringKey.foregroundColor: UIColor.black]
-//            let live = NSMutableAttributedString(string: "⊙",attributes: blueAttribute)
-//            live.append(NSAttributedString(string: option.title, attributes: blackAttribute))
-            cell.liveLocation.attributedText = option.title
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: option.reuseIdentifier, for: indexPath) as! DefaultLocationCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultLocationCell", for: indexPath) as! DefaultLocationCell
             cell.defaultLocation.attributedText = option.title
             return cell
-        }
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("location pop row", indexPath.row)
-        delegate?.setLocationOption(option: locationOptions!.options[indexPath.row])
+        delegate?.setLocationOption(index: indexPath.row)
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
 

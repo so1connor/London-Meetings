@@ -15,9 +15,9 @@ class NavigationViewController: UINavigationController, DayDelegate, LocationOpt
         controller?.setDay(day: day)
     }
     
-    func setLocationOption(option: LocationOption){
+    func setLocationOption(index: Int){
         let controller = self.topViewController as? TableViewController
-        controller?.setLocationOption(option: option)
+        controller?.setLocationOption(index: index)
     }
 
     override func viewDidLoad() {

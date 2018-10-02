@@ -12,7 +12,7 @@ protocol DayDelegate: class {
     func changedDay(day: Int)
 }
 
-class PopupTableViewController: UITableViewController {
+class DayTableViewController: UITableViewController {
     
     weak var delegate: DayDelegate?
 

@@ -21,11 +21,13 @@ let days = ["Today", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fr
 class TableViewController: UITableViewController, CLLocationManagerDelegate{
     @IBOutlet weak var locationButton: UIBarButtonItem!
     @IBOutlet weak var todayButton: UIBarButtonItem!
+    let live = UIColor(red: 0, green: 0.75, blue: 0, alpha: 1)
     var meetings : Meetings = Meetings()
     var locationManager : CLLocationManager!
     var currentLocation :CLLocation?
-    var locationOptions : LocationOptions = LocationOptions()
+    var locationOptions : LocationOptions!
     var meetingRow : Int?
+    var locationIndex: Int = 0
 //    var theDay: Int = 0
 
     
@@ -39,9 +41,16 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         self.tableView.reloadData()
     }
     
-    func setLocationOption(option: LocationOption){
+    func setLocationOption(index: Int){
+        locationIndex = index
+        let option = locationOptions.options[index]
         locationButton.title = option.title.string
         meetings.setRegion(region: option.region)
+        if(index == 0){
+            locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : live], for: .normal)
+        } else {
+            locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : self.view.tintColor], for: .normal)
+        }
         self.tableView.reloadData()
     }
     
@@ -52,15 +61,47 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        //meetings.setToday()
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        //meetings.setToday()
+//    }
+    @objc func willEnterForeground(){
+        print("will enter foreground")
+        meetings.setMeetings()
     }
+    
+    @objc func didEnterBackground(){
+        print("did enter background")
+        //meetings.setMeetings()
+    }
+
+    @objc func didBecomeActive(){
+        print("did become active")
+        //meetings.setMeetings()
+    }
+    @objc func willResignActive(){
+        print("will resign active")
+        //meetings.setMeetings()
+    }
+    @objc func didFinishLaunching(){
+        print("did finish launching")
+        //meetings.setMeetings()
+    }
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("view did load")
+        locationOptions = LocationOptions(color: live)
+        NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didFinishLaunching), name: UIApplication.didFinishLaunchingNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+
         meetings.loadMeetings()
         
-        setLocationOption(option: locationOptions.options[0])
+        setLocationOption(index: locationIndex)
         meetings.setToday()
 //        setDay(day: theDay)
 
@@ -77,6 +118,7 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        print("did receive memory warning")
         // Dispose of any resources that can be recreated.
     }
 
@@ -132,6 +174,30 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         return cell
     }
     
+    func updateLocationOptions(location: CLLocation?){
+        var place: CLPlacemark? = nil
+        if(location != nil){
+            let geocoder = CLGeocoder()
+            
+            print("calling geocoder")
+            geocoder.reverseGeocodeLocation(location!) { (places, error) in
+                if(error == nil){
+                    if(places != nil){
+                        place = places![0]
+                        self.locationOptions.updateOptions(place: place!)
+                        self.setLocationOption(index: self.locationIndex)
+                    }
+                } else {
+                    print(error!)
+                }
+            }
+        } else {
+            locationOptions.updateOptions(place: place)
+            setLocationOption(index: locationIndex)
+        }
+    }
+
+    
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations objects: [CLLocation]) {
         print("update location")
@@ -139,7 +205,7 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         let accuracy = Double(location.horizontalAccuracy)
         if(accuracy > 0){
             currentLocation = location
-            locationOptions.updateLocationOptions(location: location)
+            updateLocationOptions(location: location)
         } else {
             print("location was invalid")
         }

@@ -14,7 +14,7 @@
 		1D6A0A1E210730DD00E1088E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A0A1C210730DD00E1088E /* LaunchScreen.storyboard */; };
 		1D6A0A282107341700E1088E /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A272107341700E1088E /* TableViewController.swift */; };
 		1D6A0A2A210C8B9100E1088E /* meetings.json in Resources */ = {isa = PBXBuildFile; fileRef = 1D6A0A29210C8B9000E1088E /* meetings.json */; };
-		1D6A0A2C210E5DEE00E1088E /* PopupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */; };
+		1D6A0A2C210E5DEE00E1088E /* DayTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A2B210E5DEE00E1088E /* DayTableViewController.swift */; };
 		1D6A0A56210F820200E1088E /* NavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A55210F820200E1088E /* NavigationViewController.swift */; };
 		1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A592111C28E00E1088E /* MapViewController.swift */; };
 		1D6A0A5C2112398A00E1088E /* LocationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */; };
@@ -32,7 +32,7 @@
 		1D6A0A1F210730DD00E1088E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D6A0A272107341700E1088E /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		1D6A0A29210C8B9000E1088E /* meetings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = meetings.json; sourceTree = "<group>"; };
-		1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupTableViewController.swift; sourceTree = "<group>"; };
+		1D6A0A2B210E5DEE00E1088E /* DayTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayTableViewController.swift; sourceTree = "<group>"; };
 		1D6A0A55210F820200E1088E /* NavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationViewController.swift; sourceTree = "<group>"; };
 		1D6A0A592111C28E00E1088E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		1D6A0A5B2112398A00E1088E /* LocationTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationTableViewController.swift; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 				1D6A0A29210C8B9000E1088E /* meetings.json */,
 				1D6A0A10210730DD00E1088E /* AppDelegate.swift */,
 				1D6A0A272107341700E1088E /* TableViewController.swift */,
-				1D6A0A2B210E5DEE00E1088E /* PopupTableViewController.swift */,
+				1D6A0A2B210E5DEE00E1088E /* DayTableViewController.swift */,
 				1D6A0A55210F820200E1088E /* NavigationViewController.swift */,
 				1D6A0A14210730DD00E1088E /* Main.storyboard */,
 				1D6A0A1A210730DD00E1088E /* Assets.xcassets */,
@@ -120,6 +120,7 @@
 				TargetAttributes = {
 					1D6A0A0C210730DD00E1088E = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1000;
 					};
 				};
 			};
@@ -161,7 +162,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DA5E95F211A0A3E00F27189 /* Meetings.swift in Sources */,
-				1D6A0A2C210E5DEE00E1088E /* PopupTableViewController.swift in Sources */,
+				1D6A0A2C210E5DEE00E1088E /* DayTableViewController.swift in Sources */,
 				1D6A0A5A2111C28E00E1088E /* MapViewController.swift in Sources */,
 				1D6A0A19210730DD00E1088E /* London_Meetings.xcdatamodeld in Sources */,
 				1D6A0A282107341700E1088E /* TableViewController.swift in Sources */,
@@ -321,7 +322,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "soconnor.London-Meetings";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -339,7 +340,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "soconnor.London-Meetings";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
