@@ -47,7 +47,8 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         locationButton.title = option.title.string
         meetings.setRegion(region: option.region)
         if(index == 0){
-            locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : live], for: .normal)
+            let color = option.title.attribute(.foregroundColor, at: 0, effectiveRange: nil) as! UIColor
+            locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : color], for: .normal)
         } else {
             locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : self.view.tintColor], for: .normal)
         }
@@ -56,9 +57,6 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
     
     
     override func viewDidDisappear(_ animated: Bool) {
-        if(meetings.timer != nil){
-            meetings.timer!.invalidate()
-        }
     }
     
 //    override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +70,10 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
     
     @objc func didEnterBackground(){
         print("did enter background")
+        if(meetings.timer != nil){
+            meetings.timer!.invalidate()
+        }
+
         //meetings.setMeetings()
     }
 
@@ -175,24 +177,28 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
     }
     
     func updateLocationOptions(location: CLLocation?){
-        var place: CLPlacemark? = nil
         if(location != nil){
             let geocoder = CLGeocoder()
             
             print("calling geocoder")
             geocoder.reverseGeocodeLocation(location!) { (places, error) in
-                if(error == nil){
-                    if(places != nil){
-                        place = places![0]
-                        self.locationOptions.updateOptions(place: place!)
-                        self.setLocationOption(index: self.locationIndex)
-                    }
-                } else {
+                guard let place = places?[0] else {
                     print(error!)
+                    return
                 }
+//                print("country",place.country)
+//                print("name", place.name)
+//                print("locality", place.locality)
+//                print("sublocality", place.subLocality)
+//                print("area",place.administrativeArea)
+//                print("subarea",place.subAdministrativeArea)
+//                print("road",place.thoroughfare)
+//                print("subroad", place.subThoroughfare)
+                self.locationOptions.updateOptions(place: place)
+                self.setLocationOption(index: self.locationIndex)
             }
         } else {
-            locationOptions.updateOptions(place: place)
+            locationOptions.updateOptions(place: nil)
             setLocationOption(index: locationIndex)
         }
     }
@@ -204,6 +210,7 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         let location = objects.last!
         let accuracy = Double(location.horizontalAccuracy)
         if(accuracy > 0){
+            print(location)
             currentLocation = location
             updateLocationOptions(location: location)
         } else {

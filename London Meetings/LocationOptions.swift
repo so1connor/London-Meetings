@@ -38,13 +38,17 @@ class LocationOptions {
     }
     
     func updateOptions(place: CLPlacemark?){
-        guard let placeName = place?.subLocality else {
+        var placeName = place?.subLocality
+        if(placeName == nil){
+            placeName = place?.locality
+        }
+        if(placeName == nil) {
             options[0].title = NSAttributedString(string: "Finding your location...", attributes: grey)
             options[0].region = nil
-            return
-        }
-        options[0].title = NSAttributedString(string: "⊙ \(placeName)", attributes: live)
+        } else {
+        options[0].title = NSAttributedString(string: "⊙ \(placeName!)", attributes: live)
         options[0].region = CLCircularRegion(center: place!.location!.coordinate, radius: 4000, identifier: "Your Location")
+        }
     }
 
 

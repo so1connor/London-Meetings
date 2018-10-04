@@ -76,7 +76,7 @@ class Meetings {
         }
         filterMeetings()
         sortByTime()
-        if(list.count > 0){
+        if(today && list.count > 0){
             timer = Timer.scheduledTimer(withTimeInterval: Double(list[0].time - theMinutes) * 60, repeats: true, block: { (Timer) in
                 self.setMeetings()
             })
