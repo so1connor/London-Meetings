@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 
+
 class MeetingTableViewCell: UITableViewCell {
     @IBOutlet weak var meetingTitle: UILabel!
     @IBOutlet weak var meetingAddress: UILabel!
@@ -18,17 +19,18 @@ class MeetingTableViewCell: UITableViewCell {
 
 let days = ["Today", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
-class TableViewController: UITableViewController, CLLocationManagerDelegate{
+class TableViewController: UITableViewController, CLLocationManagerDelegate, TableUpdateDelegate{
     @IBOutlet weak var locationButton: UIBarButtonItem!
     @IBOutlet weak var todayButton: UIBarButtonItem!
-    let live = UIColor(red: 0, green: 0.75, blue: 0, alpha: 1)
     var meetings : Meetings = Meetings()
     var locationManager : CLLocationManager!
-    var currentLocation :CLLocation?
-    var locationOptions : LocationOptions!
+    var locationOptions = LocationOptions()
     var meetingRow : Int?
     var locationIndex: Int = 0
-//    var theDay: Int = 0
+    
+    func update(){
+        self.tableView.reloadData()
+    }
 
     
     func setDay(day : Int){
@@ -38,31 +40,16 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         } else {
             meetings.setDay(day: day)
         }
-        self.tableView.reloadData()
     }
     
     func setLocationOption(index: Int){
         locationIndex = index
         let option = locationOptions.options[index]
-        locationButton.title = option.title.string
+        locationButton.title = option.title
         meetings.setRegion(region: option.region)
-        if(index == 0){
-            let color = option.title.attribute(.foregroundColor, at: 0, effectiveRange: nil) as! UIColor
-            locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : color], for: .normal)
-        } else {
-            locationButton.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : self.view.tintColor], for: .normal)
-        }
-        self.tableView.reloadData()
     }
     
     
-    override func viewDidDisappear(_ animated: Bool) {
-    }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        //meetings.setToday()
-//    }
     @objc func willEnterForeground(){
         print("will enter foreground")
         meetings.setMeetings()
@@ -73,39 +60,26 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         if(meetings.timer != nil){
             meetings.timer!.invalidate()
         }
-
-        //meetings.setMeetings()
     }
 
-    @objc func didBecomeActive(){
-        print("did become active")
-        //meetings.setMeetings()
-    }
-    @objc func willResignActive(){
-        print("will resign active")
-        //meetings.setMeetings()
-    }
-    @objc func didFinishLaunching(){
-        print("did finish launching")
-        //meetings.setMeetings()
-    }
+    @objc func didBecomeActive(){ print("did become active")}
+    @objc func willResignActive(){print("will resign active")}
+    @objc func didFinishLaunching(){print("did finish launching")}
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         print("view did load")
-        locationOptions = LocationOptions(color: live)
         NotificationCenter.default.addObserver(self, selector: #selector(willEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(willResignActive), name: UIApplication.willResignActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didFinishLaunching), name: UIApplication.didFinishLaunchingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 
-        meetings.loadMeetings()
+        meetings.loadMeetings(self)
         
         setLocationOption(index: locationIndex)
         meetings.setToday()
-//        setDay(day: theDay)
 
         self.clearsSelectionOnViewWillAppear = true
         
@@ -169,10 +143,6 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         cell.meetingDuration?.text = String(meeting.duration)
         let time = meeting.time
         cell.meetingTime?.text = String(format:"%02d:%02d",time/60,time%60)
-//        cell.meetingPostcode?.setTitle(meeting.postcode, for: .normal)
-//        cell.meetingPostcode.tag = indexPath.row
-//        cell.meetingPostcode.addTarget(self, action: #selector(TableViewController.buttonPress(sender:)), for: .touchUpInside)
-        
         return cell
     }
     
@@ -211,7 +181,6 @@ class TableViewController: UITableViewController, CLLocationManagerDelegate{
         let accuracy = Double(location.horizontalAccuracy)
         if(accuracy > 0){
             print(location)
-            currentLocation = location
             updateLocationOptions(location: location)
         } else {
             print("location was invalid")

@@ -11,7 +11,7 @@ import CoreLocation
 import UIKit
 
 struct LocationOption {
-    var title: NSAttributedString
+    var title: String
     var region: CLCircularRegion?
 }
 
@@ -19,21 +19,14 @@ struct LocationOption {
 class LocationOptions {
     let london : CLLocationCoordinate2D = CLLocationCoordinate2DMake(51.512433, -0.116978)
     var options: [LocationOption] = []
-    let live : [NSAttributedString.Key: Any]
-    let black = [NSAttributedString.Key.foregroundColor: UIColor.black]
-    let grey = [NSAttributedString.Key.foregroundColor: UIColor.gray]
-    let findingLocation: NSAttributedString!
-    let centralLondon: NSAttributedString!
-    let allLondon: NSAttributedString!
+    let findingLocation = "Finding Location..."
+    let centralLondon = "Central London"
+    let allLondon = "All London"
 
     
-    init(color: UIColor){
-        live = [NSAttributedString.Key.foregroundColor: color]
-        findingLocation = NSAttributedString(string: "Finding Location...", attributes: grey)
-        centralLondon = NSAttributedString(string: "Central London", attributes: black)
-        allLondon = NSAttributedString(string: "All London", attributes: black)
+    init(){
         options.append(LocationOption(title: findingLocation ,region: nil))
-        options.append(LocationOption(title: centralLondon ,region: CLCircularRegion(center: london, radius: 4000, identifier: "Central London")))
+        options.append(LocationOption(title: centralLondon ,region: CLCircularRegion(center: london, radius: 5000, identifier: "Central London")))
         options.append(LocationOption(title: allLondon, region: nil))
     }
     
@@ -43,10 +36,10 @@ class LocationOptions {
             placeName = place?.locality
         }
         if(placeName == nil) {
-            options[0].title = NSAttributedString(string: "Finding your location...", attributes: grey)
+            options[0].title = findingLocation
             options[0].region = nil
         } else {
-        options[0].title = NSAttributedString(string: "⊙ \(placeName!)", attributes: live)
+        options[0].title = "⊙ \(placeName!)"
         options[0].region = CLCircularRegion(center: place!.location!.coordinate, radius: 4000, identifier: "Your Location")
         }
     }

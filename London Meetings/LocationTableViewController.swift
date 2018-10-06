@@ -56,7 +56,8 @@ class LocationTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let option = locationOptions!.options[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultLocationCell", for: indexPath) as! DefaultLocationCell
-            cell.defaultLocation.attributedText = option.title
+            //cell.defaultLocation.attributedText = option.title
+            cell.defaultLocation.text = option.title
             return cell
     }
     

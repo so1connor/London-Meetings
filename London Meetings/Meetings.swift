@@ -21,8 +21,14 @@ struct Meeting: Codable{
     var day: Int
 }
 
+protocol TableUpdateDelegate: class {
+    func update()
+}
 
-class Meetings {
+
+
+class Meetings : NSObject {
+    weak var delegate: TableUpdateDelegate?
     var list: [Meeting] = []
     private var original: [Meeting] = []
     private var theDay: Int = 0
@@ -31,15 +37,15 @@ class Meetings {
     private var theMinutes: Int = 0
     var timer: Timer?
     
-    func loadMeetings() {
+    func loadMeetings(_ table: TableUpdateDelegate) {
         if let path = Bundle.main.path(forResource: "meetings", ofType: "json") {
             do {
                 let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                 let decoder = JSONDecoder()
                 do {
                     original = try decoder.decode([Meeting].self, from: data)
-                    
                     print("original", original.count)
+                    delegate = table
                 } catch {
                     throw error
                 }
@@ -71,17 +77,21 @@ class Meetings {
     func setMeetings(){
         if(today){
             updateToday()
-        } else if (timer != nil){
-            timer!.invalidate()
+            if (timer != nil){
+                timer!.invalidate()
+            }
         }
         filterMeetings()
         sortByTime()
         if(today && list.count > 0){
-            timer = Timer.scheduledTimer(withTimeInterval: Double(list[0].time - theMinutes) * 60, repeats: true, block: { (Timer) in
+            let interval = Double(list[0].time - theMinutes) * 60
+            print("timer scheduled for",interval)
+            timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true, block: { (Timer) in
+                print("timer event")
                 self.setMeetings()
             })
         }
-        
+        delegate?.update()
     }
     
     func updateToday(){
