@@ -68,6 +68,7 @@ class Meetings : NSObject {
         setMeetings()
     }
     
+    
     func setRegion(region: CLCircularRegion?){
         print("set region", region as Any)
         theRegion = region
@@ -108,11 +109,11 @@ class Meetings : NSObject {
     
     private func filterMeetings(){
         list = original.filter{
-            let location = CLLocationCoordinate2DMake($0.lat,$0.lng)
             var result = false
             if($0.day == theDay){
                 result = true
                 if(theRegion != nil){
+                    let location = CLLocationCoordinate2DMake($0.lat,$0.lng)
                     result = theRegion!.contains(location)
                 }
                 if(today && result){
