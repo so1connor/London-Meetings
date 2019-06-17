@@ -39,8 +39,11 @@ class LocationOptions {
             options[0].title = findingLocation
             options[0].region = nil
         } else {
+            if(options[0].region?.identifier == placeName!){
+                return
+            }
         options[0].title = "⊙ \(placeName!)"
-        options[0].region = CLCircularRegion(center: place!.location!.coordinate, radius: 4000, identifier: "Your Location")
+        options[0].region = CLCircularRegion(center: place!.location!.coordinate, radius: 4000, identifier: placeName!)
         }
     }
 
